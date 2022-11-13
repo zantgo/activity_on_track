@@ -1,7 +1,6 @@
 // Copyleft 2022 Santiago Rojas
 // SPDX-License-Identifier: GPL-3.0
 
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
