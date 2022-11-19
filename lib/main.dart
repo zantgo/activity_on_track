@@ -176,18 +176,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: activities.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor, width: 0.8))),
+                    padding: const EdgeInsets.all(5.0),
                     key: Key('$index'),
 
-                    child: ListTile(
-                      title: Text(activities[index].name,  style: const TextStyle(fontSize: 24)),
-                        subtitle: Text(activities[index].count.toString(), style: const TextStyle(fontSize: 20)),
-                        onTap: () {
+                    child: Container(
+                        padding: const EdgeInsets.all(10.0),
 
-                          ActivityController.intoList(activities[index]);
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditActivity()), (route) => false);
+                    decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 0.8,
+                          ),
+                    ),
 
-                      }
+                      child: ListTile(
+                        title: Text(activities[index].name,  style: const TextStyle(fontSize: 24)),
+                          subtitle: Text(activities[index].count.toString(), style: const TextStyle(fontSize: 20)),
+                          onTap: () {
+
+                            ActivityController.intoList(activities[index]);
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditActivity()), (route) => false);
+
+                        }
+                      ),
                     ),
                   );
                 },
