@@ -18,7 +18,6 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
 
-  TextEditingController _name = TextEditingController();
   TextEditingController _desController = TextEditingController();
 
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
@@ -41,23 +40,20 @@ class _CalendarState extends State<Calendar> {
 
   @override
   void dispose() {
-    _name.dispose();
     _desController.dispose();
     super.dispose();
   }
-
-
 
   void _onDelete() {
 
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Confirm?', style: TextStyle(fontSize: 24)),
+      content: Text("Do you want to delete ${ActivityController.activityDataList.last.name}?", style: TextStyle(fontSize: 20)),
         actions: <Widget>[
           TextButton(
-            onPressed: () => Navigator.pop(context, 'No'),
-            child: const Text('No', style: TextStyle(fontSize: 20)),
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel', style: TextStyle(fontSize: 20)),
           ),
           TextButton(
             onPressed: ()  {
@@ -70,7 +66,7 @@ class _CalendarState extends State<Calendar> {
 
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage()), (route) => false);
             },
-            child: const Text('Yes', style: TextStyle(fontSize: 20)),
+            child: const Text('Delete', style: TextStyle(fontSize: 20)),
           ),
         ],
       ),
@@ -96,50 +92,6 @@ class _CalendarState extends State<Calendar> {
 
   }
 
-  void _editName() {
-    _name.text = ActivityController.activityDataList.last.name;
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Enter name', style: TextStyle(fontSize: 24)),
-        content: TextField(
-            decoration: const InputDecoration(
-              labelText: "Name", labelStyle: TextStyle(fontSize: 20)),
-            controller: _name,
-            maxLength: 32,
-            autofocus: true,
-            style: const TextStyle(fontSize: 24),
-            ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel', style: TextStyle(fontSize: 20)),
-          ),
-          TextButton(
-            onPressed: ()  {
-
-              var a = ActivityController.activityDataList.last;
-
-              if (_name.text.isNotEmpty) {
-                a.name = _name.text;
-                HiveData hiveData = HiveData();
-                hiveData.updateActivityData(a.key, a);
-
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditActivity()), (route) => false);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Please enter name", style: TextStyle(fontSize: 20)),
-                    ));
-              }
-
-            },
-            child: const Text('Ok', style: TextStyle(fontSize: 20)),
-          ),
-        ],
-      ),
-    );
-  }
 
   void _editDes() {
     _desController.text = ActivityController.activityDataList.last.description;
@@ -185,22 +137,6 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Column(
         children: [
-
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: GestureDetector(
-              child: Container(
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  ActivityController.activityDataList.last.name,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
-              ),
-              onTap: _editName),
-    ),
 
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -270,24 +206,6 @@ class _CalendarState extends State<Calendar> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton.icon(
-                onPressed: _onUpdate,
-                icon:Icon(Icons.check),
-                label:
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                  child: Text("Update", style: TextStyle(fontSize: 24)),
-                ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  )
-                ),
-              ),
-
-              const SizedBox(width: 15),
-
-              ElevatedButton.icon(
                 onPressed: _onDelete,
                 icon:Icon(Icons.delete),
                 label:
@@ -300,6 +218,22 @@ class _CalendarState extends State<Calendar> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)
                     )
+                ),
+              ),
+              const SizedBox(width: 15),
+              ElevatedButton.icon(
+                onPressed: _onUpdate,
+                icon:Icon(Icons.check),
+                label:
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
+                  child: Text("Save", style: TextStyle(fontSize: 24)),
+                ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  )
                 ),
               ),
             ],
