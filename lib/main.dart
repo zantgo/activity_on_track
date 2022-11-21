@@ -118,9 +118,19 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Center(child: Text('Add Activity', style: TextStyle(fontSize: 28),)),
+        title: const Center(child: Text('New', style: TextStyle(fontSize: 28),)),
         actionsAlignment: MainAxisAlignment.center,
-          content: TextField(controller: _name, autofocus: true, maxLength: 32, style: const TextStyle(fontSize: 24),),
+          content: TextField(
+            controller: _name,
+            autofocus: true,
+            maxLength: 32,
+            style: const TextStyle(fontSize: 24),
+            decoration: const InputDecoration(
+              labelText: "Name",
+              labelStyle: TextStyle(fontSize: 20),
+              counter: Offstage(),
+            ),
+          ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -164,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => addActivity(),
-            tooltip: 'ADD',
+            tooltip: 'Add',
           )],
       ),
       body: Center(
@@ -192,10 +202,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
 
                       child: ListTile(
-                        title: Text(activities[index].name,  style: const TextStyle(fontSize: 24)),
-                          subtitle: Text(activities[index].count.toString(), style: const TextStyle(fontSize: 20)),
-                          onTap: () {
 
+                        leading: Text(
+                          activities[index].name,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 24),
+                        ),
+                          title: Text(
+                            activities[index].count.toString(),
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 22),
+                          ),
+
+                          onTap: () {
                             ActivityController.intoList(activities[index]);
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditActivity()), (route) => false);
 
