@@ -53,7 +53,6 @@ class _EditActivityState extends State<EditActivity> {
                       content: Text("Please enter name", style: TextStyle(fontSize: 20)),
                     ));
               }
-
             },
             child: const Text('Ok', style: TextStyle(fontSize: 20)),
           ),
@@ -94,7 +93,6 @@ class _EditActivityState extends State<EditActivity> {
         ),
       ),
     body: Container(
-        //decoration: BoxDecoration(color: Colors.grey[100]),
       child: SingleChildScrollView(child: Calendar())
       )
     );
