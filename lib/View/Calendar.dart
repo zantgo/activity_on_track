@@ -49,7 +49,7 @@ class _CalendarState extends State<Calendar> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-      content: Text("Do you want to delete ${ActivityController.activityDataList.last.name}?", style: TextStyle(fontSize: 20)),
+      content: Text('Are you sure to delete "${ActivityController.activityDataList.last.name}"?', style: TextStyle(fontSize: 20)),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -85,11 +85,27 @@ class _CalendarState extends State<Calendar> {
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Done "+a.count.toString()+" days", style: TextStyle(fontSize: 20)),
+          content: Text(
+              daysAmount(a),
+              //"Done "+a.count.toString()+" days",
+              style: TextStyle(fontSize: 20)
+          ),
         ));
 
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditActivity()), (route) => false);
 
+  }
+
+  String daysAmount(var a){
+    var c = a.count;
+
+    if (c > 1) {
+      return "$c days done";
+    } else if (c == 1){
+      return "1 day done";
+    } else {
+      return "Not done";
+    }
   }
 
 
@@ -131,7 +147,6 @@ class _CalendarState extends State<Calendar> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
