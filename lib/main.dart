@@ -1,6 +1,8 @@
 // Copyleft 2022 Santiago Rojas
 // SPDX-License-Identifier: GPL-3.0
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +15,11 @@ late Box box;
 
 Future<void> main() async {
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    SystemUiOverlay.bottom, //This line is used for showing the bottom bar
+  ]);
+
   await Hive.initFlutter();
   box = await Hive.openBox('box');
   Hive.registerAdapter(ActivityDataAdapter());
@@ -109,8 +115,16 @@ class _MyHomePageState extends State<MyHomePage> {
         box.add(activities[i]);
       }
     });
+  }
 
+  String _onCount(int index) {
 
+    var c = activities[index].count;
+
+    if (c > 0) {
+      return activities[index].count.toString();
+    }
+    return "";
   }
 
   void addActivity() {
@@ -168,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset:false,
       appBar: AppBar(
-        title: const Text("Activities", style: TextStyle(fontSize: 24),),
+        title: const Text("ACTIVITIES", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, letterSpacing: 2.0),),
         centerTitle: true,
         actions: [
           IconButton(
@@ -211,10 +225,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 24),
                         ),
                           title: Text(
-                            activities[index].count.toString(),
+                            _onCount(index),
+                            //activities[index].count.toString(),
                             textAlign: TextAlign.end,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 fontSize: 22),
                           ),
 
