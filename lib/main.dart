@@ -1,3 +1,5 @@
+// Copyleft Santiago Rojas
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
