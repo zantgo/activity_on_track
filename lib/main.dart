@@ -1,6 +1,3 @@
-// Copyleft 2022 Santiago Rojas
-// SPDX-License-Identifier: GPL-3.0
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
