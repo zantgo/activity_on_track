@@ -1,5 +1,4 @@
-// Copyleft 2022 Santiago Rojas
-// SPDX-License-Identifier: GPL-3.0
+// Copyleft Santiago Rojas
 
 import 'dart:ui';
 
